@@ -27,21 +27,24 @@ public class TankProjectile : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         // 플레이어와 충돌할 경우 데미지를 주지 않음
-        if (collision.gameObject.CompareTag("Player"))
+        if (collision.gameObject.CompareTag("Player") ||
+            collision.transform.root.CompareTag("Player"))
         {
             Destroy(gameObject);
             return;
         }
 
-        // 적 탱크와 충돌할 경우
-        if (collision.gameObject.CompareTag("Enemy"))
+        // 적 탱크와 충돌했는지 확인
+        if (collision.gameObject.CompareTag("Enemy") ||
+            collision.transform.root.CompareTag("Enemy"))
         {
-            // TODO: EnemyTankController를 통해 데미지 적용
-            // EnemyTankController enemy =
-            //    collision.gameObject.GetComponent<EnemyTankController>();
+            // 충돌한 오브젝트 또는 부모에서 공통 체력 스크립트 탐색
+            EnemyTankController enemy =
+                collision.transform.GetComponentInParent<EnemyTankController>();
 
-            // if (enemy != null)
-            //    enemy.TakeDamage(damage);
+            // 적 탱크를 찾았다면 데미지 전달
+            if (enemy != null)
+                enemy.TakeDamage(damage);
         }
 
         // 충돌한 대상이 무엇이든 포탄 제거
