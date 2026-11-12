@@ -112,7 +112,10 @@ public class PlayerTankController : MonoBehaviour
         if (playerHp <= 0f)
         {
             Debug.LogWarning("플레이어 사망");
-            // TODO: GameManager에 게임 오버 요청
+
+            // GameManager에 게임 오버 요청
+            if (GameManager.Instance != null)
+                GameManager.Instance.GameOver();
         }
     }
 }
