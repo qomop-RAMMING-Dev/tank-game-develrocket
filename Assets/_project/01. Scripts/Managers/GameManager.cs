@@ -15,6 +15,13 @@ public class GameManager : MonoBehaviour
     [SerializeField] private int maxStage = 3;
     [SerializeField] private int currentStage = 1;
 
+    [Header("Stage Timer")]
+    [SerializeField] private StageTimer stageTimer;
+
+    [Header("UI References")]
+    [SerializeField] private StageClearUIController stageClearUI;
+    [SerializeField] private GameOverUIController gameOverUI;
+
     // 현재 게임 상태
     private GameState currentState = GameState.Playing;
 
@@ -39,6 +46,11 @@ public class GameManager : MonoBehaviour
         Instance = this;
     }
 
+    private void Start()
+    {
+        StartGame();
+    }
+
     // 게임 시작
     public void StartGame()
     {
@@ -46,6 +58,7 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 1f;
 
         Debug.Log($"Stage {currentStage} 시작!");
+        stageTimer?.StartTimer();
     }
 
     // 게임 오버
@@ -55,6 +68,16 @@ public class GameManager : MonoBehaviour
             return;
 
         currentState = GameState.GameOver;
+
+        stageTimer?.StopTimer();
+
+        if (gameOverUI != null && stageTimer != null)
+        {
+            gameOverUI.ShowGameOver(
+                currentStage,
+                stageTimer.GetFormattedTime()
+                );
+        }
 
         Debug.Log("GAME OVER");
 
@@ -69,8 +92,17 @@ public class GameManager : MonoBehaviour
 
         currentState = GameState.StageClear;
 
-        Debug.Log($"Stage {currentStage} 클리어!");
+        stageTimer?.StopTimer();
 
+        if (stageClearUI != null && stageTimer != null)
+        {
+            stageClearUI.ShowStageClear(
+                currentStage,
+                stageTimer.GetFormattedTime()
+                );
+        }
+
+        Debug.Log($"Stage {currentStage} 클리어!");
         Time.timeScale = 0f;
     }
 

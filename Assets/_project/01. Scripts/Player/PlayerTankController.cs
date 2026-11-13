@@ -16,12 +16,20 @@ public class PlayerTankController : MonoBehaviour
     [SerializeField] private float moveSpeed = 5f;
     [SerializeField] private float turnSpeed = 60f;
 
+    [Header("UI References")]
+    [SerializeField] private PlayerHPUIController hpUI;
+
     private Rigidbody rb;
     private Vector2 moveInput;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
+    }
+
+    private void Start()
+    {
+        hpUI?.UpdateHP(playerHp, 100f);
     }
 
     private void FixedUpdate()
@@ -106,6 +114,8 @@ public class PlayerTankController : MonoBehaviour
 
         playerHp -= damage;
         playerHp = Mathf.Max(playerHp, 0f);
+
+        hpUI?.UpdateHP(playerHp, 100f);
 
         Debug.Log($"플레이어 체력: {playerHp}");
 
