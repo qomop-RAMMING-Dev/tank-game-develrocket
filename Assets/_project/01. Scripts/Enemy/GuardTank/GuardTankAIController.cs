@@ -63,6 +63,9 @@ public class GuardTankAIController : MonoBehaviour
         {
             hasTarget = true;
 
+            // 경보 발생
+            EnemyAlertSystem.RaiseAlert(player.position);
+
             // 기존 좌우 감시 회전 중단
             guardController.SetScanning(false);
 
