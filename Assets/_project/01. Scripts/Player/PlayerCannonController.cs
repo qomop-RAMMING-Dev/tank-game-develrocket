@@ -34,7 +34,11 @@ public class PlayerCannonController : MonoBehaviour
     private void Fire()
     {
         // 필수 오브젝트가 연결되지 않았다면 발사하지 않음.
-        if (projectilePrefab == null || muzzle == null) return;
+        if (projectilePrefab == null || muzzle == null)
+        {
+            Debug.LogWarning("포탄 Prefab 또는 Muzzle이 연결되지 않았습니다.");
+            return;
+        }
 
         // 연사 간격 확인
         if (Time.time < nextFireTime) return;
@@ -48,6 +52,8 @@ public class PlayerCannonController : MonoBehaviour
             muzzle.position,
             muzzle.rotation
             );
+
+        Debug.Log($"포탄 생성 완료: {projectilePrefab.name}");
 
         // 발사 사운드 재생
         if (fireAudioSrc != null && fireClip != null)
