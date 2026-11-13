@@ -29,8 +29,18 @@ public class StageClearUIController : MonoBehaviour
     {
         Time.timeScale = 1f;
 
+        EnemyAlertSystem.ResetAlert();
+
         SceneManager.LoadScene(
-            SceneManager.GetActiveScene().buildIndex
+            SceneManager.GetActiveScene().name
             );
     }
+
+    public void ReturnToMainMenu()
+    {
+        Time.timeScale = 1f;
+
+        SceneManager.LoadScene("TitleScene");
+    }
+
 }

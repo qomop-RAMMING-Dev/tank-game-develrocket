@@ -54,6 +54,8 @@ public class GameManager : MonoBehaviour
     // 게임 시작
     public void StartGame()
     {
+        EnemyAlertSystem.ResetAlert();
+
         currentState = GameState.Playing;
         Time.timeScale = 1f;
 
